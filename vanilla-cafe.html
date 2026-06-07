@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vanilla – Dessert Café, Wolverhampton</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #FAF6F0;
+    --warm-white: #FEF9F4;
+    --vanilla: #F5E6C8;
+    --caramel: #C9883A;
+    --dark-caramel: #8B5A1A;
+    --espresso: #2C1A0E;
+    --soft-brown: #6B4226;
+    --blush: #EDD5B3;
+    --accent: #D4A057;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--cream);
+    color: var(--espresso);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.4rem 3rem;
+    background: rgba(250,246,240,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(201,136,58,0.15);
+  }
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    letter-spacing: 0.08em;
+    color: var(--espresso);
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--caramel); font-style: italic; }
+  .nav-links { display: flex; gap: 2.2rem; list-style: none; }
+  .nav-links a {
+    text-decoration: none;
+    color: var(--soft-brown);
+    font-size: 0.82rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--caramel); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding-top: 80px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 5rem 4rem 5rem 5rem;
+    position: relative;
+    z-index: 2;
+  }
+  .hero-eyebrow {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--caramel);
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.2s forwards;
+  }
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3.5rem, 7vw, 6rem);
+    line-height: 1.05;
+    color: var(--espresso);
+    margin-bottom: 0.3rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.4s forwards;
+  }
+  .hero-title em {
+    font-style: italic;
+    color: var(--caramel);
+    display: block;
+  }
+  .hero-subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem;
+    color: var(--soft-brown);
+    font-style: italic;
+    margin: 1.4rem 0 2.5rem;
+    max-width: 340px;
+    line-height: 1.6;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.6s forwards;
+  }
+  .hero-cta {
+    display: flex; gap: 1rem; flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.8s forwards;
+  }
+  .btn-primary {
+    background: var(--caramel);
+    color: var(--cream);
+    border: none;
+    padding: 0.9rem 2.2rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.25s, transform 0.2s;
+    display: inline-block;
+  }
+  .btn-primary:hover { background: var(--dark-caramel); transform: translateY(-2px); }
+  .btn-secondary {
+    background: transparent;
+    color: var(--espresso);
+    border: 1px solid var(--caramel);
+    padding: 0.9rem 2.2rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.25s;
+    display: inline-block;
+  }
+  .btn-secondary:hover { background: var(--vanilla); }
+
+  .hero-right {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .hero-blob {
+    position: absolute;
+    width: 85%;
+    height: 85%;
+    background: var(--vanilla);
+    border-radius: 60% 40% 55% 45% / 45% 55% 45% 55%;
+    animation: morphBlob 8s ease-in-out infinite;
+    opacity: 0.7;
+  }
+  @keyframes morphBlob {
+    0%,100% { border-radius: 60% 40% 55% 45% / 45% 55% 45% 55%; }
+    33% { border-radius: 45% 55% 40% 60% / 55% 40% 60% 45%; }
+    66% { border-radius: 55% 45% 60% 40% / 40% 60% 50% 50%; }
+  }
+  .hero-visual {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    animation: floatItem 4s ease-in-out infinite;
+  }
+  .hero-visual .big-emoji { font-size: 8rem; display: block; filter: drop-shadow(0 20px 40px rgba(44,26,14,0.15)); }
+  .hero-badge {
+    position: absolute;
+    bottom: 2rem;
+    right: 2rem;
+    background: var(--espresso);
+    color: var(--cream);
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 0.75rem;
+    line-height: 1.3;
+    animation: rotate 12s linear infinite;
+  }
+  .hero-badge strong { font-size: 1.4rem; display: block; }
+  @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+  @keyframes floatItem {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-16px); }
+  }
+
+  /* decorative line */
+  .hero-info {
+    position: absolute;
+    bottom: 2rem;
+    left: 5rem;
+    display: flex;
+    gap: 2.5rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 1s forwards;
+  }
+  .hero-stat { text-align: left; }
+  .hero-stat strong {
+    display: block;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    color: var(--caramel);
+  }
+  .hero-stat span { font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--soft-brown); }
+
+  /* ── MARQUEE ── */
+  .marquee-wrap {
+    background: var(--espresso);
+    padding: 0.9rem 0;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  .marquee-track {
+    display: inline-flex;
+    animation: marquee 22s linear infinite;
+  }
+  .marquee-item {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    color: var(--vanilla);
+    font-size: 1.1rem;
+    padding: 0 2.5rem;
+    opacity: 0.85;
+  }
+  .marquee-dot { color: var(--caramel); margin: 0 0.2rem; }
+  @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+  /* ── SECTION SHARED ── */
+  section { padding: 6rem 5rem; }
+  .section-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--caramel);
+    margin-bottom: 0.8rem;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    color: var(--espresso);
+    line-height: 1.15;
+    margin-bottom: 1rem;
+  }
+  .section-title em { font-style: italic; color: var(--caramel); }
+  .section-body {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.15rem;
+    color: var(--soft-brown);
+    max-width: 520px;
+    line-height: 1.8;
+  }
+
+  /* ── ABOUT ── */
+  .about {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: center;
+    background: var(--warm-white);
+  }
+  .about-visual {
+    position: relative;
+    height: 480px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .about-card {
+    background: var(--vanilla);
+    width: 300px;
+    height: 380px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 5rem;
+    border-radius: 2px;
+    box-shadow: 8px 8px 0 var(--blush);
+    position: relative;
+    z-index: 2;
+    transition: transform 0.3s;
+  }
+  .about-card:hover { transform: translate(-4px,-4px); }
+  .about-card p {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    color: var(--espresso);
+    margin-top: 1rem;
+    font-style: italic;
+  }
+  .about-card-2 {
+    position: absolute;
+    top: 1.5rem;
+    left: 1.5rem;
+    width: 300px;
+    height: 380px;
+    background: var(--blush);
+    border-radius: 2px;
+    z-index: 1;
+  }
+  .about-sticker {
+    position: absolute;
+    bottom: 1.5rem;
+    right: 1rem;
+    background: var(--caramel);
+    color: var(--cream);
+    padding: 0.6rem 1.2rem;
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  /* ── MENU ── */
+  .menu { background: var(--cream); }
+  .menu-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 3.5rem; flex-wrap: wrap; gap: 1rem; }
+  .menu-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+  .menu-card {
+    background: var(--warm-white);
+    padding: 2rem;
+    border: 1px solid rgba(201,136,58,0.12);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: default;
+  }
+  .menu-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--caramel), var(--blush));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.35s;
+  }
+  .menu-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(44,26,14,0.08); }
+  .menu-card:hover::before { transform: scaleX(1); }
+  .menu-icon { font-size: 2.5rem; margin-bottom: 1rem; display: block; }
+  .menu-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    color: var(--espresso);
+    margin-bottom: 0.4rem;
+  }
+  .menu-desc {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.95rem;
+    color: var(--soft-brown);
+    line-height: 1.6;
+    margin-bottom: 1.2rem;
+  }
+  .menu-price {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    color: var(--caramel);
+    font-style: italic;
+  }
+  .menu-tag {
+    position: absolute;
+    top: 1.2rem;
+    right: 1.2rem;
+    background: var(--espresso);
+    color: var(--vanilla);
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0.25rem 0.6rem;
+  }
+
+  /* ── SPECIALS BANNER ── */
+  .specials {
+    background: var(--espresso);
+    color: var(--cream);
+    padding: 5rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+  .specials .section-label { color: var(--accent); }
+  .specials .section-title { color: var(--cream); }
+  .specials .section-body { color: var(--blush); }
+  .specials-items { display: flex; flex-direction: column; gap: 1.5rem; }
+  .special-row {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1.2rem;
+    border: 1px solid rgba(245,230,200,0.12);
+    transition: background 0.25s;
+    cursor: default;
+  }
+  .special-row:hover { background: rgba(245,230,200,0.06); }
+  .special-row .icon { font-size: 2rem; }
+  .special-row h4 { font-family: 'Playfair Display', serif; font-size: 1.05rem; color: var(--vanilla); margin-bottom: 0.2rem; }
+  .special-row p { font-family: 'Cormorant Garamond', serif; font-size: 0.95rem; color: var(--blush); font-style: italic; }
+  .special-row .price { margin-left: auto; font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--accent); }
+
+  /* ── VISIT ── */
+  .visit {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: center;
+    background: var(--warm-white);
+  }
+  .visit-info-block { display: flex; flex-direction: column; gap: 2rem; }
+  .info-row { display: flex; gap: 1.2rem; align-items: flex-start; }
+  .info-icon {
+    width: 44px; height: 44px;
+    background: var(--vanilla);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+  }
+  .info-row h4 { font-family: 'Playfair Display', serif; font-size: 0.95rem; color: var(--espresso); margin-bottom: 0.25rem; }
+  .info-row p { font-family: 'Cormorant Garamond', serif; font-size: 1rem; color: var(--soft-brown); font-style: italic; line-height: 1.6; }
+  .map-placeholder {
+    background: var(--vanilla);
+    height: 340px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+    border: 1px solid var(--blush);
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .map-placeholder p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    color: var(--soft-brown);
+    font-style: italic;
+  }
+
+  /* ── REVIEWS ── */
+  .reviews { background: var(--cream); }
+  .reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+  .review-card {
+    background: var(--warm-white);
+    padding: 2rem;
+    border: 1px solid rgba(201,136,58,0.1);
+    position: relative;
+  }
+  .review-stars { color: var(--caramel); font-size: 0.9rem; margin-bottom: 1rem; }
+  .review-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.05rem;
+    font-style: italic;
+    color: var(--espresso);
+    line-height: 1.7;
+    margin-bottom: 1.2rem;
+  }
+  .review-author { font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--caramel); }
+  .quote-mark {
+    position: absolute;
+    top: 1rem; right: 1.5rem;
+    font-family: 'Playfair Display', serif;
+    font-size: 5rem;
+    color: var(--vanilla);
+    line-height: 1;
+    pointer-events: none;
+  }
+  .rating-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--espresso);
+    color: var(--cream);
+    padding: 0.5rem 1.2rem;
+    font-family: 'Playfair Display', serif;
+    font-size: 0.9rem;
+    margin-top: 2.5rem;
+  }
+  .rating-badge span { color: var(--accent); font-size: 1.1rem; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--espresso);
+    color: var(--blush);
+    padding: 4rem 5rem 2rem;
+  }
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 4rem;
+    margin-bottom: 3rem;
+  }
+  .footer-brand .nav-logo { color: var(--cream); margin-bottom: 1rem; display: block; }
+  .footer-brand p { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1rem; line-height: 1.7; max-width: 280px; }
+  .footer-col h5 {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1rem;
+  }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+  .footer-col a { color: var(--blush); text-decoration: none; font-size: 0.9rem; font-family: 'Cormorant Garamond', serif; font-style: italic; transition: color 0.2s; }
+  .footer-col a:hover { color: var(--vanilla); }
+  .footer-bottom {
+    border-top: 1px solid rgba(245,230,200,0.1);
+    padding-top: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.75rem;
+    color: rgba(237,213,179,0.5);
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    nav { padding: 1.2rem 1.5rem; }
+    .nav-links { display: none; }
+    section { padding: 4rem 1.5rem; }
+    .hero { grid-template-columns: 1fr; min-height: auto; }
+    .hero-left { padding: 7rem 1.5rem 3rem; }
+    .hero-right { min-height: 280px; }
+    .about, .visit { grid-template-columns: 1fr; }
+    .menu-grid { grid-template-columns: 1fr 1fr; }
+    .reviews-grid { grid-template-columns: 1fr; }
+    .specials { grid-template-columns: 1fr; padding: 4rem 1.5rem; }
+    .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .footer-bottom { flex-direction: column; gap: 0.5rem; text-align: center; }
+    .hero-info { left: 1.5rem; }
+  }
+  @media (max-width: 600px) {
+    .menu-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">Vanilla<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="#menu">Menu</a></li>
+    <li><a href="#specials">Specials</a></li>
+    <li><a href="#visit">Visit Us</a></li>
+    <li><a href="#reviews">Reviews</a></li>
+    <li><a href="#visit"><strong style="color:var(--caramel)">Order Now</strong></a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-left">
+    <p class="hero-eyebrow">✦ Wolverhampton's Sweetest Escape</p>
+    <h1 class="hero-title">
+      Where every<br>bite is <em>pure bliss.</em>
+    </h1>
+    <p class="hero-subtitle">Handcrafted waffles, silky crepes, indulgent sundaes & rich gelato — made with love in the heart of Wolverhampton.</p>
+    <div class="hero-cta">
+      <a href="#menu" class="btn-primary">Explore Menu</a>
+      <a href="#visit" class="btn-secondary">Find Us</a>
+    </div>
+    <div class="hero-info">
+      <div class="hero-stat"><strong>4.9★</strong><span>Google Rating</span></div>
+      <div class="hero-stat"><strong>50+</strong><span>Desserts</span></div>
+      <div class="hero-stat"><strong>Late</strong><span>Open till 1AM</span></div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-blob"></div>
+    <div class="hero-visual">
+      <span class="big-emoji">🧇</span>
+    </div>
+    <div class="hero-badge">
+      <strong>NEW</strong>
+      Dubai
+      Choc Range
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span class="marquee-item">Belgian Waffles <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Loaded Crepes <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Gelato & Sorbet <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Milkshakes <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Cheesecakes <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Dubai Chocolate <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Hot Drinks <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Ice Cream Sundaes <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Belgian Waffles <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Loaded Crepes <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Gelato & Sorbet <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Milkshakes <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Cheesecakes <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Dubai Chocolate <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Hot Drinks <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Ice Cream Sundaes <span class="marquee-dot">✦</span></span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="about-visual">
+    <div class="about-card-2"></div>
+    <div class="about-card">
+      <span>🍦</span>
+      <p>Made fresh, daily.</p>
+    </div>
+    <div class="about-sticker">Est. 2025 · Wolverhampton</div>
+  </div>
+  <div>
+    <p class="section-label">Our Story</p>
+    <h2 class="section-title">Born from a love of <em>sweet things.</em></h2>
+    <p class="section-body">Vanilla is Wolverhampton's destination for unforgettable desserts. From our signature loaded waffles to hand-scooped gelato and viral Dubai chocolate treats, every item on our menu is crafted to delight. Whether you dine in, take away, or order online — we're here to make your day a little sweeter.</p>
+    <br><br>
+    <a href="#menu" class="btn-primary">See Our Menu</a>
+  </div>
+</section>
+
+<!-- MENU -->
+<section class="menu" id="menu">
+  <div class="menu-header">
+    <div>
+      <p class="section-label">What We Serve</p>
+      <h2 class="section-title">Our <em>Menu</em></h2>
+    </div>
+    <a href="#visit" class="btn-secondary">Order Online</a>
+  </div>
+  <div class="menu-grid">
+    <div class="menu-card">
+      <div class="menu-tag">Fan Fave</div>
+      <span class="menu-icon">🧇</span>
+      <h3 class="menu-name">Loaded Waffles</h3>
+      <p class="menu-desc">Crispy Belgian waffle topped with fresh strawberries, whipped cream, Lotus Biscoff drizzle & vanilla gelato.</p>
+      <span class="menu-price">from £6.50</span>
+    </div>
+    <div class="menu-card">
+      <span class="menu-icon">🥞</span>
+      <h3 class="menu-name">Classic Crepes</h3>
+      <p class="menu-desc">Thin, golden crepes folded with Nutella, banana & a dusting of icing sugar. Sweet, simple, perfect.</p>
+      <span class="menu-price">from £5.50</span>
+    </div>
+    <div class="menu-card">
+      <div class="menu-tag">Viral</div>
+      <span class="menu-icon">🍫</span>
+      <h3 class="menu-name">Dubai Chocolate</h3>
+      <p class="menu-desc">Our viral pistachio & kadayif-filled chocolate bar. Rich, crunchy, and utterly irresistible.</p>
+      <span class="menu-price">from £7.00</span>
+    </div>
+    <div class="menu-card">
+      <span class="menu-icon">🍨</span>
+      <h3 class="menu-name">Gelato & Sundaes</h3>
+      <p class="menu-desc">Scooped to order from 20+ flavours. Build your own sundae with toppings, sauces & sprinkles.</p>
+      <span class="menu-price">from £4.50</span>
+    </div>
+    <div class="menu-card">
+      <span class="menu-icon">🧁</span>
+      <h3 class="menu-name">Cheesecakes & Cakes</h3>
+      <p class="menu-desc">Baked in-house: New York-style, Lotus, and seasonal specials. Ask about our celebration cake orders.</p>
+      <span class="menu-price">from £5.00</span>
+    </div>
+    <div class="menu-card">
+      <div class="menu-tag">New</div>
+      <span class="menu-icon">🥤</span>
+      <h3 class="menu-name">Milkshakes & Drinks</h3>
+      <p class="menu-desc">Thick, creamy milkshakes, indulgent hot chocolates, lattes and fresh teas to warm or cool you down.</p>
+      <span class="menu-price">from £4.00</span>
+    </div>
+  </div>
+</section>
+
+<!-- SPECIALS -->
+<section class="specials" id="specials">
+  <div>
+    <p class="section-label">Limited Time</p>
+    <h2 class="section-title">This Month's <em>Specials</em></h2>
+    <p class="section-body">We rotate seasonal creations to keep things exciting. Come in and try something new — you never know what magic we're making.</p>
+    <br><br>
+    <a href="#visit" class="btn-primary" style="background:var(--accent)">Order Now</a>
+  </div>
+  <div class="specials-items">
+    <div class="special-row">
+      <span class="icon">🍓</span>
+      <div>
+        <h4>Strawberry Cheesecake Waffle</h4>
+        <p>Waffle base, cream cheese drizzle, fresh strawberries & crumble</p>
+      </div>
+      <span class="price">£8.50</span>
+    </div>
+    <div class="special-row">
+      <span class="icon">🌸</span>
+      <div>
+        <h4>Rose Pistachio Crepe</h4>
+        <p>Rose water cream, crushed pistachios & gold flake finish</p>
+      </div>
+      <span class="price">£7.50</span>
+    </div>
+    <div class="special-row">
+      <span class="icon">🍦</span>
+      <div>
+        <h4>Salted Caramel Cloud</h4>
+        <p>Caramel gelato, spun candy floss & caramel drizzle</p>
+      </div>
+      <span class="price">£6.00</span>
+    </div>
+    <div class="special-row">
+      <span class="icon">☕</span>
+      <div>
+        <h4>Affogato Float</h4>
+        <p>Vanilla gelato, double espresso shot & chocolate pearls</p>
+      </div>
+      <span class="price">£5.50</span>
+    </div>
+  </div>
+</section>
+
+<!-- VISIT -->
+<section class="visit" id="visit">
+  <div>
+    <p class="section-label">Come See Us</p>
+    <h2 class="section-title">Find <em>Vanilla</em></h2>
+    <p class="section-body">We're right in the heart of Wolverhampton city centre — easy to find, impossible to forget.</p>
+    <br>
+    <div class="visit-info-block">
+      <div class="info-row">
+        <div class="info-icon">📍</div>
+        <div>
+          <h4>Address</h4>
+          <p>Wolverhampton City Centre<br>West Midlands, United Kingdom</p>
+        </div>
+      </div>
+      <div class="info-row">
+        <div class="info-icon">🕐</div>
+        <div>
+          <h4>Opening Hours</h4>
+          <p>Mon – Thu: 12 PM – 11 PM<br>Fri – Sat: 12 PM – 1 AM<br>Sunday: 12 PM – 11 PM</p>
+        </div>
+      </div>
+      <div class="info-row">
+        <div class="info-icon">📞</div>
+        <div>
+          <h4>Get in Touch</h4>
+          <p>Call us or find us on<br>Uber Eats & Just Eat</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="map-placeholder">
+    <span>🗺️</span>
+    <p>Wolverhampton City Centre</p>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section class="reviews" id="reviews">
+  <p class="section-label">What People Say</p>
+  <h2 class="section-title">Made with love, <em>enjoyed by all.</em></h2>
+  <div class="reviews-grid">
+    <div class="review-card">
+      <div class="quote-mark">"</div>
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">Amazing service and the waffles are absolutely divine. This is my new favourite spot in Wolverhampton — I'll be back every week!</p>
+      <span class="review-author">— Priya S.</span>
+    </div>
+    <div class="review-card">
+      <div class="quote-mark">"</div>
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">The atmosphere is so cosy and inviting. Staff are so friendly and the desserts are unlike anything else in the city. Truly special.</p>
+      <span class="review-author">— Marcus T.</span>
+    </div>
+    <div class="review-card">
+      <div class="quote-mark">"</div>
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">That Dubai chocolate though — I travelled from Birmingham just for it. Absolutely worth every mile. The crepes are phenomenal too.</p>
+      <span class="review-author">— Aisha R.</span>
+    </div>
+  </div>
+  <div class="rating-badge">⭐ <span>4.9</span> from 100+ happy customers on Google</div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="#" class="nav-logo">Vanilla<span style="color:var(--accent)">.</span></a>
+      <p>Wolverhampton's home for handcrafted desserts, gelato, and sweet indulgences. Open late — because cravings don't keep office hours.</p>
+    </div>
+    <div class="footer-col">
+      <h5>Menu</h5>
+      <ul>
+        <li><a href="#menu">Waffles & Crepes</a></li>
+        <li><a href="#menu">Gelato & Sundaes</a></li>
+        <li><a href="#menu">Cakes & Cheesecakes</a></li>
+        <li><a href="#menu">Drinks</a></li>
+        <li><a href="#specials">Seasonal Specials</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Visit</h5>
+      <ul>
+        <li><a href="#visit">Find Us</a></li>
+        <li><a href="#visit">Opening Hours</a></li>
+        <li><a href="#visit">Order Online</a></li>
+        <li><a href="#visit">Contact</a></li>
+        <li><a href="#reviews">Reviews</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 Vanilla Café, Wolverhampton. All rights reserved.</span>
+    <span>Made with 🍦 in the West Midlands</span>
+  </div>
+</footer>
+
+</body>
+</html>
